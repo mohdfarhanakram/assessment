@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="comment"
+            type="com.justclean.android.domain.Comment"/>
+        <variable
+            name="listener"
+            type="android.view.View.OnClickListener"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_5sdp"
+        android:background="@android:color/white"
+        android:tag='@{comment}'
+        android:onClick='@{(view)->listener.onClick(view)}'>
+
+        <TextView
+            android:id="@+id/nameTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{comment.name}"
+            tools:text="Farhan"
+            android:textSize="@dimen/_12ssp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@id/leftGuide"
+            app:layout_constraintEnd_toEndOf="@id/rightGuide"
+            app:layout_constraintTop_toTopOf="@id/topGuide"
+
+            />
+
+        <TextView
+            android:id="@+id/emailTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{comment.email}"
+            tools:text="mohdfarhanakram@gmail.com"
+            android:textSize="@dimen/_10ssp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@id/leftGuide"
+            app:layout_constraintEnd_toEndOf="@id/rightGuide"
+            app:layout_constraintTop_toBottomOf="@id/nameTv"
+
+            />
+
+        <TextView
+            android:id="@+id/bodyTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            app:layout_constraintStart_toStartOf="@id/leftGuide"
+            app:layout_constraintEnd_toEndOf="@id/rightGuide"
+            app:layout_constraintTop_toBottomOf="@id/emailTv"
+            android:text="@{comment.body}"
+            tools:text="Mohd Farhan, Dubain, UAE"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/_9ssp"/>
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/leftGuide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/_10sdp"
+            />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/rightGuide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/_10sdp"
+            />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/topGuide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="@dimen/_10sdp"
+            />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/bottomGuide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/_10sdp"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
