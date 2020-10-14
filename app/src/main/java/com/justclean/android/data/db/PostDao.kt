@@ -1,10 +1,13 @@
 package com.justclean.android.data.db
 
-import androidx.room.*
-import com.justclean.android.domain.Fav
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.justclean.android.domain.Post
 import io.reactivex.Completable
-import io.reactivex.Flowable
+import io.reactivex.Observable
+
 
 /**
  *   Created by Mohd Farhan on 12/10/2020.
@@ -14,12 +17,12 @@ import io.reactivex.Flowable
 interface PostDao{
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(postList: List<Post>) : Completable
+    fun insertAll(posts: List<Post>) : Completable
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPost(post: Post)  : Completable
 
     @Query("SELECT * FROM Post")
-    fun getPostList(): Flowable<List<Post>>
+    fun getPostList(): Observable<List<Post>>
 
 }
