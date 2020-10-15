@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.justclean.android.R
@@ -18,6 +19,7 @@ import com.justclean.android.presentation.Constant
 import com.justclean.android.presentation.activity.PostDetailActivity
 import com.justclean.android.presentation.adapter.FavPostAdapter
 import com.justclean.android.presentation.vm.FavPostListViewModel
+import com.justclean.android.presentation.vm.PostListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -28,9 +30,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class FavouritePostFragment : BaseFragment() , View.OnClickListener{
 
-    @Inject
-    lateinit var factory: ViewModelFactory
-    private lateinit var viewModel: FavPostListViewModel
+    private val viewModel: FavPostListViewModel by viewModels()
     private lateinit var adapter: FavPostAdapter
     private lateinit var binding : FragmentFavPostLayoutBinding
 
@@ -49,7 +49,6 @@ class FavouritePostFragment : BaseFragment() , View.OnClickListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this,factory)[FavPostListViewModel::class.java]
         viewModel.getFavPostLiveData().observe(this.viewLifecycleOwner, Observer { populateUI(it) })
         viewModel.fetchFavPostList()
 

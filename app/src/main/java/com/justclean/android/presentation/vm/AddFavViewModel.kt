@@ -1,6 +1,10 @@
 package com.justclean.android.presentation.vm
 
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.justclean.android.data.repository.Repository
 import com.justclean.android.domain.Post
@@ -14,7 +18,10 @@ import javax.inject.Inject
  *   Created by Mohd Farhan on 13/10/2020.
  */
 
-class AddFavViewModel @Inject constructor(private val repository: Repository): ViewModel(){
+class AddFavViewModel @ViewModelInject constructor(
+    private val repository: Repository,
+    @Assisted private val savedStateHandle: SavedStateHandle
+): ViewModel() , LifecycleObserver {
 
     private val compositeDisposable = CompositeDisposable()
     private val responseLiveData = MutableLiveData<Response<String>>()

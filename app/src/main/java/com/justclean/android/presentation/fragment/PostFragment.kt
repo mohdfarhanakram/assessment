@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.justclean.android.R
@@ -28,10 +29,9 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class PostFragment : BaseFragment() , View.OnClickListener{
 
-    @Inject
-    lateinit var factory: ViewModelFactory
-    private lateinit var viewModel: PostListViewModel
-    private lateinit var viewModelAddFav: AddFavViewModel
+    private val viewModel: PostListViewModel by viewModels()
+    private val viewModelAddFav: AddFavViewModel by viewModels()
+
     private lateinit var adapter: PostAdapter
     lateinit var binding : FragmentPostLayoutBinding
 
@@ -48,10 +48,7 @@ class PostFragment : BaseFragment() , View.OnClickListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this,factory)[PostListViewModel::class.java]
         viewModel.getPostLiveData().observe(this.viewLifecycleOwner, Observer { populateUI(it) })
-
-        viewModelAddFav = ViewModelProvider(this,factory)[AddFavViewModel::class.java]
         viewModelAddFav.getFavLiveData().observe(this.viewLifecycleOwner, Observer { showAddToFavResult(it) })
 
         viewModel.fetchPostList()

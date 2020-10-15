@@ -16,21 +16,21 @@ class ViewModelFactory @Inject constructor(private val repository: Repository) :
 
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(PostListViewModel::class.java)) {
+        /*if (modelClass.isAssignableFrom(PostListViewModel::class.java)) {
             return PostListViewModel(repository) as T
-        }
+        }*/
 
-        if (modelClass.isAssignableFrom(CommentListViewModel::class.java)) {
+       /* if (modelClass.isAssignableFrom(CommentListViewModel::class.java)) {
             return CommentListViewModel(repository) as T
-        }
+        }*/
 
-        if (modelClass.isAssignableFrom(AddFavViewModel::class.java)) {
+        /*if (modelClass.isAssignableFrom(AddFavViewModel::class.java)) {
             return AddFavViewModel(repository) as T
-        }
+        }*/
 
-        if (modelClass.isAssignableFrom(FavPostListViewModel::class.java)) {
+       /* if (modelClass.isAssignableFrom(FavPostListViewModel::class.java)) {
             return FavPostListViewModel(repository) as T
-        }
+        }*/
         throw IllegalArgumentException("Unknown class name in ViewModelFactory")
     }
 

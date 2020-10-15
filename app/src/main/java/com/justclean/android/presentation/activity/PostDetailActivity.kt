@@ -3,7 +3,9 @@ package com.justclean.android.presentation.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.justclean.android.R
@@ -16,6 +18,7 @@ import com.justclean.android.presentation.BaseActivity
 import com.justclean.android.presentation.Constant
 import com.justclean.android.presentation.adapter.CommentAdapter
 import com.justclean.android.presentation.vm.CommentListViewModel
+import com.justclean.android.presentation.vm.PostListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -25,9 +28,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class PostDetailActivity : BaseActivity(), View.OnClickListener{
 
-    @Inject
-    lateinit var factory: ViewModelFactory
-    private lateinit var viewModel: CommentListViewModel
+   private val viewModel: CommentListViewModel by viewModels()
+
     lateinit var binding : ActivityPostDetailBinding
 
      var postId : String? = null
@@ -43,7 +45,6 @@ class PostDetailActivity : BaseActivity(), View.OnClickListener{
     override fun onResume() {
         super.onResume()
 
-        viewModel = ViewModelProvider(this,factory)[CommentListViewModel::class.java]
         viewModel.getCommentLiveData().observe(this, Observer { populateUI(it) })
 
         postId?.let { viewModel.fetchCommentList(it) }
