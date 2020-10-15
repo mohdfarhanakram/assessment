@@ -6,8 +6,8 @@ import com.justclean.android.domain.Post
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -17,16 +17,28 @@ import javax.inject.Inject
 class Repository  @Inject constructor (
     private val repoFactory: RepoFactory
 ) : IRepository{
-    override fun insertPostList(postList: List<Post>): Completable {
-       return repoFactory.postDao.insertAll(postList)
-    }
 
+    override fun insertPostList(postList: List<Post>): Completable {
+        return repoFactory.postDao.insertAll(postList)
+
+    }
 
     override fun getPostList() : Observable<List<Post>> {
+
         return repoFactory.apiService.getPostList()
+            .flatMap {
+                // When the request is successful,  save the result to Room Db.
+                insertPostList(it)
+                    .andThen(Observable.just(it))
+            }.onExceptionResumeNext(getPostListFromDb())
+
     }
 
-    override fun getPostListFromDb(): Flowable<List<Post>> {
+    override fun addPost(post: Post): Completable {
+        return repoFactory.postDao.insertPost(post)
+    }
+
+    override fun getPostListFromDb(): Observable<List<Post>> {
         return repoFactory.postDao.getPostList()
     }
 
@@ -37,10 +49,6 @@ class Repository  @Inject constructor (
     override fun addFav(post: Post): Completable {
         val fav = Fav(post.id,post.title,post.body)
         return repoFactory.favDao.insertFav(fav)
-    }
-
-    override fun addPost(post: Post): Completable {
-        return repoFactory.postDao.insertPost(post)
     }
 
     override fun getFavList(): Flowable<List<Fav>> {

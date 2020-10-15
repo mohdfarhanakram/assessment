@@ -42,18 +42,6 @@ class PostListViewModel @ViewModelInject constructor(
         )
     }
 
-    fun fetchPostListFromDb() {
-        compositeDisposable.add(repository.getPostListFromDb()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { responseLiveData.postValue(response.loading()) }
-            .subscribe({ postList ->responseLiveData.postValue(response.setData(postList))
-            }, { error ->
-                responseLiveData.postValue(response.setError(error))
-            })
-        )
-    }
-
 
     fun getPostLiveData(): MutableLiveData<Response<List<Post>>> {
         return responseLiveData

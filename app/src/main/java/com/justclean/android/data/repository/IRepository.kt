@@ -17,7 +17,7 @@ interface IRepository {
 
     fun getPostList() : Observable<List<Post>>
 
-    fun getPostListFromDb() : Flowable<List<Post>>
+    fun getPostListFromDb() : Observable<List<Post>>
 
     fun getCommentList(id : String) : Observable<List<Comment>>
 
