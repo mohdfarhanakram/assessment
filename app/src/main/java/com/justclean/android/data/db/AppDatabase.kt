@@ -8,7 +8,7 @@ import com.justclean.android.domain.Post
 /**
  *   Created by Mohd Farhan on 12/10/2020.
  */
-@Database(entities = [Post::class, Fav::class], version = 1, exportSchema = true)
+@Database(entities = [Post::class, Fav::class], version = 2, exportSchema = true)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun postDao(): PostDao
     abstract fun favDao(): FavDao

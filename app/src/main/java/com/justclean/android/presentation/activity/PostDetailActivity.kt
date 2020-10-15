@@ -17,6 +17,7 @@ import com.justclean.android.domain.Response
 import com.justclean.android.presentation.BaseActivity
 import com.justclean.android.presentation.Constant
 import com.justclean.android.presentation.adapter.CommentAdapter
+import com.justclean.android.presentation.fragment.PostDetailFragment
 import com.justclean.android.presentation.vm.CommentListViewModel
 import com.justclean.android.presentation.vm.PostListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,10 +29,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class PostDetailActivity : BaseActivity(), View.OnClickListener{
 
-   private val viewModel: CommentListViewModel by viewModels()
-
     lateinit var binding : ActivityPostDetailBinding
-
      var postId : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,38 +38,18 @@ class PostDetailActivity : BaseActivity(), View.OnClickListener{
         binding.listener = this
         postId = intent.getStringExtra(Constant.POST_ID)
 
-    }
+        if(savedInstanceState==null){
+            val fragmentManager = supportFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
 
-    override fun onResume() {
-        super.onResume()
-
-        viewModel.getCommentLiveData().observe(this, Observer { populateUI(it) })
-
-        postId?.let { viewModel.fetchCommentList(it) }
-    }
-
-    private fun populateUI(result: Response<List<Comment>>) {
-        when (result.status) {
-            Response.Status.ERROR -> {
-                loader(false)
-            }
-
-            Response.Status.LOADING -> {
-                loader(true)
-            }
-
-            Response.Status.SUCCESS -> {
-                loader(false)
-                binding.commentRV.adapter = result.data?.let { CommentAdapter(this, it,this) }
-            }
+            val fragment = PostDetailFragment()
+            val bundle = Bundle()
+            bundle.putString(Constant.POST_ID,postId)
+            fragment.arguments = bundle
+            fragmentTransaction.add(R.id.commentFragmentContainer, fragment)
+            fragmentTransaction.commit()
         }
-    }
 
-    private fun loader(show: Boolean){
-        if(show)
-            binding.loading.visibility = View.VISIBLE
-        else
-            binding.loading.visibility = View.GONE
     }
 
     override fun onClick(view: View) {

@@ -50,8 +50,8 @@
             android:src="@drawable/ic_back_img"
             android:onClick='@{(view)->listener.onClick(view)}'/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/commentRV"
+        <FrameLayout
+            android:id="@+id/commentFragmentContainer"
             android:background="@color/screen_bg_color"
             android:paddingTop="@dimen/_10sdp"
             android:layout_width="0dp"
@@ -64,20 +64,6 @@
             android:orientation="vertical"
             tools:listitem="@layout/row_comment_layout"/>
 
-
-        <com.tuyenmonkey.mkloader.MKLoader
-            android:id="@+id/loading"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="@dimen/_500sdp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:mk_color="@color/colorPrimary"
-            app:mk_type="FivePulse" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -18,6 +18,7 @@ import com.justclean.android.presentation.BaseFragment
 import com.justclean.android.presentation.Constant
 import com.justclean.android.presentation.activity.PostDetailActivity
 import com.justclean.android.presentation.adapter.FavPostAdapter
+import com.justclean.android.presentation.adapter.PostAdapter
 import com.justclean.android.presentation.vm.FavPostListViewModel
 import com.justclean.android.presentation.vm.PostListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,38 +46,17 @@ class FavouritePostFragment : BaseFragment() , View.OnClickListener{
     }
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getFavPostLiveData().observe(this.viewLifecycleOwner, Observer { populateUI(it) })
+        viewModel.responseLiveData().observe(this.viewLifecycleOwner, Observer { showResult(it) })
         viewModel.fetchFavPostList()
-
     }
 
-    private fun populateUI(result: Response<List<Fav>>) {
-        when (result.status) {
-            Response.Status.ERROR -> {
-                loader(false)
-            }
-
-            Response.Status.LOADING -> {
-                loader(true)
-            }
-
-            Response.Status.SUCCESS -> {
-                loader(false)
-                binding.favPostRv.adapter =
-                    result.data?.let { FavPostAdapter(requireContext(), it,this) }
-            }
+    override fun populateUi(result: Any) {
+        if (result is List<*>) { // Show List
+            binding.favPostRv.adapter = FavPostAdapter(requireContext(), result as List<Fav>,this);
         }
-    }
-
-    private fun loader(show: Boolean){
-        if(show)
-            binding.loading.visibility = View.VISIBLE
-        else
-            binding.loading.visibility = View.GONE
     }
 
     override fun onClick(view: View) {
