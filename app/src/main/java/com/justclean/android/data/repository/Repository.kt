@@ -26,8 +26,6 @@ class Repository  @Inject constructor (
     override fun getPostList() : Observable<List<Post>> {
 
         return repoFactory.apiService.getPostList()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
             .flatMap {
                 // When the request is successful,  save the result to Room Db.
                 insertPostList(it)
